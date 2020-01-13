@@ -6,5 +6,7 @@
 const char* morseWordSeparator;
 const char* morseSymbolSeparator;
 const char* morseTable[MORSE_TABLE_SIZE][2];
+const char* latinToMorse(char latin);
+char* morseEncode(char* latin);
 
 #endif
