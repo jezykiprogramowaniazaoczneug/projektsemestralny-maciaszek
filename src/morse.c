@@ -67,21 +67,66 @@ const char* latinToMorse(char latin)
 
 char* morseEncode(char* latin)
 {
-  char* morse = malloc(0);
+  char* morse = emptyString();
   const uintmax_t latinLength = (uintmax_t)strlen(latin);
   for(uintmax_t i = 0; i < latinLength; ++i)
   {
     if(latin[i] == ' '){
-      morse = stringAppend(morse, (char*)morseWordSeparator);
+      morse = stringAppendString(morse, (char*)morseWordSeparator);
       continue;
     }
 
-    const char* toAppend = latinToMorse(latin[i]);
+    char* toAppend = (char*)latinToMorse(latin[i]);
     if(toAppend == NULL)
       printf("Letter not found");
-    morse = stringAppend(morse, toAppend);
+    morse = stringAppendString(morse, toAppend);
     if(i+1 < latinLength)
-      morse = stringAppend(morse, (char*)morseSymbolSeparator);
+      morse = stringAppendString(morse, (char*)morseSymbolSeparator);
   }
   return morse;
+}
+
+const char morseToLatin(char* morse)
+{
+  for(uintmax_t i = 0; i < MORSE_TABLE_SIZE; ++i)
+  {
+    if(strcmp(morse, morseTable[i][1]) == 0){
+      return morseTable[i][0][0];
+    }
+  }
+  return 0;
+}
+
+char* morseDecode(char* morse)
+{
+  char* latin = emptyString();
+  const uintmax_t morseLength = (uintmax_t)strlen(morse);
+  uintmax_t spaces = 0;
+  char* letter = emptyString();
+  for(uintmax_t i = 0; i < morseLength; ++i)
+  {
+    if(spaces == 5){
+      latin = stringAppendChar(latin, ' ');
+      spaces = 0;
+    }
+
+    if(morse[i] == ' '){
+      ++spaces;
+      if(letter != emptyString()){
+        latin = stringAppendChar(latin, morseToLatin(letter));
+        free(letter);
+        letter = emptyString();
+      }
+    }
+    else{
+      spaces = 0;
+      letter = stringAppendChar(letter, morse[i]);
+    }
+  }
+
+  if(strlen(letter) > 0){
+    latin = stringAppendChar(latin, morseToLatin(letter));
+  }
+  free(letter);
+  return latin;
 }
