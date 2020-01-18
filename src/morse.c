@@ -115,7 +115,9 @@ char* morseDecode(char* morse)
     if(morse[i] == ' '){
       ++spaces;
       if(letter != emptyString()){
-        latin = stringAppendChar(latin, morseToLatin(letter));
+        char toAppend = morseToLatin(letter);
+        if(toAppend != '\0');
+          latin = stringAppendChar(latin, toAppend);
         free(letter);
         letter = emptyString();
       }
