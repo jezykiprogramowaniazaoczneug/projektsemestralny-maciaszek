@@ -3,7 +3,7 @@
 
 void printHelp(char* executable)
 {
-  fprintf(stderr, "%s action input [output]\n", executable);
+  fprintf(stderr, "\n%s action input output\n", executable);
 
   fprintf(stderr, "\n\n%s\n\n", "action - one of following:");
     fprintf(stderr, "  %s  %s\n", "       help", "display this help");
@@ -19,7 +19,7 @@ void printHelp(char* executable)
     fprintf(stderr, "  %s  %s\n", "http[s]://…", "read from web resource");
 
   fprintf(stderr, "\n\n%s\n\n", "output - path to output file or:");
-    fprintf(stderr, "  %s  %s\n", "     stdout", "print to stdout (default)");
+    fprintf(stderr, "  %s  %s\n", "     stdout", "print to stdout");
     fprintf(stderr, "  %s  %s\n", "          -", "same as 'stdout'");
 
     fprintf(stderr, "\n");

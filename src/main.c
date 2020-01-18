@@ -21,16 +21,10 @@ int main(int argc, char** argv)
     return 0;
   }
 
-  printf("Initializing... ");
-  fflush(stdout);
-
-  //INITIALIZE VARIABLES
-  const uintmax_t inputCategory = getInputCategory(INPUT);
-  const uintmax_t outputCategory = getOutputCategory(OUTPUT);
   const uintmax_t actionCode = getActionCode(ACTION);
 
   if(actionCode == ACTIONS_CODE_HELP){
-    printHelp();
+    printHelp(argv[0]);
     return 0;
   }
 
@@ -39,7 +33,12 @@ int main(int argc, char** argv)
     printHelp(argv[0]);
     return 0;
   }
+  
+  printf("Initializing... ");
+  fflush(stdout);
 
+  const uintmax_t inputCategory = getInputCategory(INPUT);
+  const uintmax_t outputCategory = getOutputCategory(OUTPUT);
   FILE* input;
   FILE* output;
   uintmax_t inputLength = 0;
