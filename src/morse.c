@@ -72,7 +72,7 @@ char* morseEncode(char* latin)
   const uintmax_t latinLength = (uintmax_t)strlen(latin);
   for(uintmax_t i = 0; i < latinLength; ++i)
   {
-    if(latin[i] == ' '){
+    if(latin[i] == ' ' || latin[i] == '\n' || latin[i] == '\t'){
       morse = stringAppendString(morse, (char*)morseWordSeparator);
       continue;
     }
