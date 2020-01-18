@@ -96,7 +96,6 @@ int main(int argc, char** argv)
 
   printf("OK\n");
 
-
   if(actionCode == ACTIONS_CODE_ENCRYPT || actionCode == ACTIONS_CODE_DECRYPT){
     fprintf(stderr, "Please provide keyA (1 for Caesar cipher): ");
     scanf("%lu", &keyA);
@@ -109,6 +108,7 @@ int main(int argc, char** argv)
     }
   }
 
+  printProgress(0, inputLength);
 
   while(fgets(inputBuffer, BUFFER_SIZE, input) != NULL)
   {
