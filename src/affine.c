@@ -49,11 +49,10 @@ char* affineEncrypt(char* plain, intmax_t a, intmax_t b)
   for(uintmax_t i = 0; i < plainLength; ++i)
   {
     char encryptedChar = plainToAffine(plain[i], a, b);
-    if(encryptedChar == '\0'){
-      printf("Error: Invalid input\n");
-      return NULL;
-    }
-    encrypted = stringAppendChar(encrypted, encryptedChar);
+    if(encryptedChar == '\0')
+      encrypted = stringAppendChar(encrypted, plain[i]);
+    else
+      encrypted = stringAppendChar(encrypted, encryptedChar);
   }
   return encrypted;
 }
@@ -65,11 +64,10 @@ char* affineDecrypt(char* encrypted, intmax_t a, intmax_t b)
   for(uintmax_t i = 0; i < encryptedLength; ++i)
   {
     char plainChar = affineToPlain(encrypted[i], a, b);
-    if(plainChar == '\0'){
-      printf("Error: Invalid input\n");
-      return NULL;
-    }
-    plain = stringAppendChar(plain, plainChar);
+    if(plainChar == '\0')
+      plain = stringAppendChar(plain, encrypted[i]);
+    else
+      plain = stringAppendChar(plain, plainChar);
   }
   return plain;
 }
