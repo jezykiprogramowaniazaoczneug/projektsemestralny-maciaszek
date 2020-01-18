@@ -108,8 +108,9 @@ int main(int argc, char** argv)
     }
   }
 
-  printProgress(0, inputLength);
-
+  if(inputCategory != IO_CODE_STDSTREAM){
+    printProgress(0, inputLength);
+  }
   while(fgets(inputBuffer, BUFFER_SIZE, input) != NULL)
   {
     char* outputBuffer = emptyString();
@@ -158,7 +159,13 @@ int main(int argc, char** argv)
       }
     }
   }
-  printProgress(dataRead, inputLength);
+  if(inputCategory != IO_CODE_STDSTREAM){
+    dataRead = ftell(input);
+    if(((dataRead - lastDataRead)*100/inputLength > 0) || ((dataRead - lastDataRead)*PROGRESS_BAR_WIDTH/inputLength > 1)){
+      printProgress(dataRead, inputLength);
+      lastDataRead = dataRead;
+    }
+  }
 
   if(inputCategory != IO_CODE_STDSTREAM)
     fclose(input);
