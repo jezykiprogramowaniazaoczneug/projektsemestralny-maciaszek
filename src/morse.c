@@ -136,3 +136,38 @@ char* morseDecode(char* morse)
   }
   return latin;
 }
+
+char* generateSupportBuffer(char* morse)
+{
+  if(morse == emptyString())
+    return emptyString();
+  uintmax_t morseLength = strlen(morse);
+  if(morse[morseLength-1] == '\0')
+    return emptyString();
+  uintmax_t supportLength = 0;
+  uintmax_t spaces = 0;
+  for(uintmax_t i = 1; i <= morseLength; ++i)
+  {
+    if(morse[morseLength-i] == ' ')
+      break;
+    ++supportLength;
+  }
+  for(uintmax_t i = supportLength; i <= morseLength; ++i)
+  {
+    if(morse[morseLength-i] != ' ')
+      break;
+    ++spaces;
+  }
+  if(spaces < 5)
+    supportLength += spaces;
+
+  if(supportLength == 0)
+    return emptyString();
+  char* support = (char*)malloc(sizeof(char)*supportLength);
+  for(uintmax_t i = 0; i < supportLength; ++i)
+  {
+    support[supportLength-i] = morse[morseLength-i];
+    morse[morseLength-i] = '\0';
+  }
+  return support;
+}

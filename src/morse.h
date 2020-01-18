@@ -10,5 +10,6 @@ const char* latinToMorse(char latin);
 char* morseEncode(char* latin);
 const char morseToLatin(char* morse);
 char* morseDecode(char* morse);
+char* generateSupportBuffer(char* morse);
 
 #endif

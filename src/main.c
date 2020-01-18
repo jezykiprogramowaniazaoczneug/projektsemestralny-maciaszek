@@ -38,9 +38,11 @@ int main(int argc, char** argv)
   FILE* output;
   uintmax_t inputLength = 0;
   uintmax_t dataRead = 0;
-  char inputBuffer[BUFFER_SIZE];
+  uintmax_t lastDataRead = 0;
+  char* inputBuffer = (char*)malloc(sizeof(char) * BUFFER_SIZE);
   intmax_t keyA = 1;
   intmax_t keyB = 3;
+  char* inputSupportBuffer = emptyString();
 
   if(outputCategory == IO_CODE_FILE){
     output = fopen(OUTPUT, "w");
@@ -106,7 +108,20 @@ int main(int argc, char** argv)
   {
     char* outputBuffer = emptyString();
     if(actionCode == ACTIONS_CODE_DECODE){
-      outputBuffer = morseDecode(inputBuffer);
+      char* tmpString;
+      if(inputSupportBuffer != emptyString()){
+        tmpString = (char*)malloc(sizeof(char)*strlen(inputSupportBuffer));
+        strcpy(tmpString, inputSupportBuffer);
+        tmpString = stringAppendString(tmpString, inputBuffer);
+        free(inputSupportBuffer);
+        inputSupportBuffer = generateSupportBuffer(tmpString);
+        outputBuffer = morseDecode(tmpString);
+        free(tmpString);
+      }
+      else{
+        inputSupportBuffer = generateSupportBuffer(inputBuffer);
+        outputBuffer = morseDecode(inputBuffer);
+      }
     }
     else if(actionCode == ACTIONS_CODE_ENCODE){
       outputBuffer = morseEncode(inputBuffer);
@@ -121,7 +136,6 @@ int main(int argc, char** argv)
       printError("Unknown action");
       return 0;
     }
-
     if(outputBuffer == NULL){
       printError("Processing failed");
       return 0;
@@ -131,10 +145,14 @@ int main(int argc, char** argv)
     free(outputBuffer);
 
     if(inputCategory != IO_CODE_STDSTREAM){
-      dataRead += strlen(inputBuffer);
-      printProgress(dataRead, inputLength);
+      dataRead = ftell(input);
+      if(((dataRead - lastDataRead)*100/inputLength > 0) || ((dataRead - lastDataRead)*PROGRESS_BAR_WIDTH/inputLength > 1)){
+        printProgress(dataRead, inputLength);
+        lastDataRead = dataRead;
+      }
     }
   }
+  printProgress(dataRead, inputLength);
 
   if(inputCategory != IO_CODE_STDSTREAM)
     fclose(input);
@@ -145,6 +163,8 @@ int main(int argc, char** argv)
       printError("Failed removing temporary files");
     }
   }
+
+  free(inputBuffer);
 
   return 0;
 }
