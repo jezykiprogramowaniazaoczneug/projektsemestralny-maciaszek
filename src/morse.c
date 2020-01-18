@@ -1,6 +1,7 @@
 #include "globalIncludes.h"
 #include "stringOperations.h"
 #include "morse.h"
+#include "ui.h"
 
 const char* morseWordSeparator = "     ";
 const char* morseSymbolSeparator = " ";
@@ -77,8 +78,9 @@ char* morseEncode(char* latin)
     }
 
     char* toAppend = (char*)latinToMorse(latin[i]);
-    if(toAppend == NULL)
-      printf("Letter not found");
+    if(toAppend == NULL){
+      continue;
+    }
     morse = stringAppendString(morse, toAppend);
     if(i+1 < latinLength)
       morse = stringAppendString(morse, (char*)morseSymbolSeparator);
@@ -118,15 +120,17 @@ char* morseDecode(char* morse)
         letter = emptyString();
       }
     }
-    else{
+    else if(morse[i] == '.' || morse[i] == '-'){
       spaces = 0;
       letter = stringAppendChar(letter, morse[i]);
     }
   }
 
-  if(strlen(letter) > 0){
-    latin = stringAppendChar(latin, morseToLatin(letter));
+  if(letter != emptyString()){
+    if(strlen(letter) > 0){
+      latin = stringAppendChar(latin, morseToLatin(letter));
+    }
+    free(letter);
   }
-  free(letter);
   return latin;
 }
