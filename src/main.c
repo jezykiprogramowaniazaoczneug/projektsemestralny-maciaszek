@@ -15,8 +15,8 @@
 
 int main(int argc, char** argv)
 {
-  if(argc != 4){
-    printError("Wrong number of arguments");
+  if(argc < 2){
+    printError("Too few arguments");
     printHelp(argv[0]);
     return 0;
   }
@@ -31,6 +31,12 @@ int main(int argc, char** argv)
 
   if(actionCode == ACTIONS_CODE_HELP){
     printHelp();
+    return 0;
+  }
+
+  if(argc < 4){
+    printError("Too few arguments");
+    printHelp(argv[0]);
     return 0;
   }
 
