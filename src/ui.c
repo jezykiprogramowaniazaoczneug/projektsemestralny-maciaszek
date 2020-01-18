@@ -9,9 +9,9 @@ void printHelp(char* executable)
     fprintf(stderr, "  %s  %s\n", "       help", "display this help");
     fprintf(stderr, "  %s  %s\n", "     --help", "same as 'help'");
     fprintf(stderr, "  %s  %s\n", "    encrypt", "encrypt text with Affine/Caesar cipher");
-    fprintf(stderr, "  %s  %s\n", "         en", "same as 'encrypt");
+    fprintf(stderr, "  %s  %s\n", "     encode", "morse-encode text");
     fprintf(stderr, "  %s  %s\n", "    decrypt", "decrypt text encrypted with Affine/Caesar cipher");
-    fprintf(stderr, "  %s  %s\n", "         de", "same as 'decrypt'");
+    fprintf(stderr, "  %s  %s\n", "     decode", "decode morse-encoded text");
 
   fprintf(stderr, "\n\n%s\n\n", "input - path to input file or:");
     fprintf(stderr, "  %s  %s\n", "      stdin", "read from stdin");
