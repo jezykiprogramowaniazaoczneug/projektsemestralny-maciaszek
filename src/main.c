@@ -33,7 +33,7 @@ int main(int argc, char** argv)
     printHelp(argv[0]);
     return 0;
   }
-  
+
   printf("Initializing... ");
   fflush(stdout);
 
@@ -158,6 +158,16 @@ int main(int argc, char** argv)
       }
     }
   }
+  if(inputSupportBuffer != emptyString() && actionCode == ACTIONS_CODE_DECODE){
+      char* outputBuffer = morseDecode(inputSupportBuffer);
+      if(outputBuffer == NULL){
+        printError("Processing failed");
+        return 0;
+      }
+      fprintf(output, "%s", outputBuffer);
+      free(outputBuffer);
+  }
+
   if(inputCategory != IO_CODE_STDSTREAM){
     dataRead = ftell(input);
     if(((dataRead - lastDataRead)*100/inputLength > 0) || ((dataRead - lastDataRead)*PROGRESS_BAR_WIDTH/inputLength > 1)){

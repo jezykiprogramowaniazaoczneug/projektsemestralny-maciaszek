@@ -166,8 +166,8 @@ char* generateSupportBuffer(char* morse)
   char* support = (char*)malloc(sizeof(char)*supportLength);
   for(uintmax_t i = 0; i < supportLength; ++i)
   {
-    support[supportLength-i] = morse[morseLength-i];
-    morse[morseLength-i] = '\0';
+    support[supportLength-i-1] = morse[morseLength-i-1];
+    morse[morseLength-i-1] = '\0';
   }
   return support;
 }
